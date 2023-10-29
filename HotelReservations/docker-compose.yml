@@ -1,0 +1,17 @@
+version: '3.4'
+
+services:
+  db:
+    image: "mcr.microsoft.com/mssql/server:2022-latest"
+    ports:
+      - "1433:1433"
+    environment:
+      MSSQL_SA_PASSWORD: "password!@123456"
+      ACCEPT_EULA: "Y"
+  hotelreservations:
+    image: ${DOCKER_REGISTRY-}hotelreservations
+    build:
+      context: .
+      dockerfile: Interface/Dockerfile
+    ports:
+      - 58921:443
