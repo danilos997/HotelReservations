@@ -1,6 +1,9 @@
-﻿namespace Interface.Controllers
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace Interface.Controllers
 {
-    public class ReservationController
+    public class ReservationController : ControllerBase
     {
+
     }
 }
