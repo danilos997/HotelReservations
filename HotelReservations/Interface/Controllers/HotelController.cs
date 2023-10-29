@@ -15,18 +15,18 @@ namespace Interface.Controllers
             _hotelRepository = hotelRepository;
         }
 
+        [HttpPost]
+        [Route("{id}")]
+        public async Task<int> CreateHotelAsync([FromBody] Hotel hotel)
+        {
+            return await _hotelRepository.CreateHotelAsync(hotel);
+        }
+
         [HttpGet]
         [Route("all")]
         public async Task<IEnumerable<Hotel>> GetHotelsAsync()
         {
             return await _hotelRepository.GetHotelsAsync();
-        }
-
-        [HttpPost]
-        [Route("create")]
-        public async Task<int> CreateHotelAsync([FromBody] Hotel hotel)
-        {
-            return await _hotelRepository.CreateHotelAsync(hotel);
         }
 
         [HttpGet]
@@ -36,12 +36,19 @@ namespace Interface.Controllers
             return await _hotelRepository.GetHotelAsync(id);
         }
 
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<Hotel> UpdateHotelAsync([FromBody] Hotel hotel)
+        {
+            return await _hotelRepository.UpdateHotelAsync(hotel);
+        }
+
         [HttpDelete]
-        [Route("delete")]
-        public async Task DeleteHotelAsync([FromBody]Hotel hotel)
+        [Route("{id}")]
+        public async Task DeleteHotelAsync([FromBody] Hotel hotel)
         {
             await _hotelRepository.DeleteHotelAsync(hotel);
         }
-        
+
     }
 }

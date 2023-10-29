@@ -20,20 +20,27 @@ namespace Application.Repositories.Hotel
             return hotel.Id;
         }
 
+        public async Task<IEnumerable<Entities.Hotel>> GetHotelsAsync()
+        {
+            return await _dbContext.Hotel.ToListAsync();
+        }
+
         public async Task<Entities.Hotel?> GetHotelAsync(int id)
         {
             return await _dbContext.Hotel.Where(x => x.Id == id).FirstOrDefaultAsync();
+        }
+
+        public async Task<Entities.Hotel> UpdateHotelAsync(Entities.Hotel hotel)
+        {
+            _dbContext.Hotel.Update(hotel);
+            await _dbContext.SaveChangesAsync();
+            return hotel;
         }
 
         public async Task DeleteHotelAsync(Entities.Hotel hotel)
         {
             _dbContext.Hotel.Remove(hotel);
             await _dbContext.SaveChangesAsync();
-        }
-
-        public async Task<IEnumerable<Entities.Hotel>> GetHotelsAsync()
-        {
-            return await _dbContext.Hotel.ToListAsync();
         }
     }
 }

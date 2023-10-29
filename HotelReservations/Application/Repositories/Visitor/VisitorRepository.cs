@@ -1,6 +1,6 @@
 ﻿using Infrastructure.AppContext;
-using Entities = Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
+using Entities = Infrastructure.Entities;
 
 namespace Application.Repositories.Visitor
 {
@@ -20,20 +20,27 @@ namespace Application.Repositories.Visitor
             return visitor.Id;
         }
 
+        public async Task<IEnumerable<Entities.Visitor>> GetVisitorsAsync()
+        {
+            return await _dbContext.Visitor.ToListAsync();
+        }
+
         public async Task<Entities.Visitor?> GetVisitorAsync(int id)
         {
             return await _dbContext.Visitor.Where(x => x.Id == id).FirstOrDefaultAsync();
+        }
+
+        public async Task<Entities.Visitor> UpdateVisitorAsync(Entities.Visitor visitor)
+        {
+            _dbContext.Visitor.Update(visitor);
+            await _dbContext.SaveChangesAsync();
+            return visitor;
         }
 
         public async Task DeleteVisitorAsync(Entities.Visitor visitor)
         {
             _dbContext.Visitor.Remove(visitor);
             await _dbContext.SaveChangesAsync();
-        }
-
-        public async Task<IEnumerable<Entities.Visitor>> GetVisitorsAsync()
-        {
-            return await _dbContext.Visitor.ToListAsync();
         }
     }
 }
