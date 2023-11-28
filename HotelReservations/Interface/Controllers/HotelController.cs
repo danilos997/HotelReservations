@@ -1,5 +1,5 @@
-using Application.Repositories.Hotel;
-using Infrastructure.Entities;
+using Application.DTO.Hotel;
+using Infrastructure.Services.Hotel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Interface.Controllers
@@ -8,46 +8,46 @@ namespace Interface.Controllers
     [Route("hotel")]
     public class HotelController : ControllerBase
     {
-        private readonly IHotelRepository _hotelRepository;
+        private readonly IHotelService _hotelService;
 
-        public HotelController(IHotelRepository hotelRepository)
+        public HotelController(IHotelService hotelService)
         {
-            _hotelRepository = hotelRepository;
+            _hotelService = hotelService;
         }
 
         [HttpPost]
-        [Route("{id}")]
-        public async Task<int> CreateHotelAsync([FromBody] Hotel hotel)
+        [Route("create")]
+        public async Task<HotelDTO> CreateHotelAsync([FromBody] HotelDTO hotel)
         {
-            return await _hotelRepository.CreateHotelAsync(hotel);
+            return await _hotelService.CreateHotelAsync(hotel);
         }
 
         [HttpGet]
         [Route("all")]
-        public async Task<IEnumerable<Hotel>> GetHotelsAsync()
+        public async Task<IEnumerable<HotelDTO>> GetHotelsAsync()
         {
-            return await _hotelRepository.GetHotelsAsync();
+            return await _hotelService.GetHotelsAsync();
         }
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<Hotel?> GetHotelAsync(int id)
+        public async Task<HotelDTO?> GetHotelAsync(string id)
         {
-            return await _hotelRepository.GetHotelAsync(id);
+            return await _hotelService.GetHotelAsync(id);
         }
 
         [HttpPut]
         [Route("{id}")]
-        public async Task<Hotel> UpdateHotelAsync([FromBody] Hotel hotel)
+        public async Task<HotelDTO> UpdateHotelAsync([FromBody] HotelDTO hotel)
         {
-            return await _hotelRepository.UpdateHotelAsync(hotel);
+            return await _hotelService.UpdateHotelAsync(hotel);
         }
 
         [HttpDelete]
         [Route("{id}")]
-        public async Task DeleteHotelAsync([FromBody] Hotel hotel)
+        public async Task DeleteHotelAsync([FromRoute] string id)
         {
-            await _hotelRepository.DeleteHotelAsync(hotel);
+            await _hotelService.DeleteHotelAsync(id);
         }
 
     }

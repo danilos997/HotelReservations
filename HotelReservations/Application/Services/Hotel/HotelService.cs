@@ -1,7 +1,8 @@
-﻿using Application.Repositories.Hotel;
-using Entities = Infrastructure.Entities;
+﻿using Application.DTO.Hotel;
+using Application.DTO.Reservation;
+using Infrastructure.Repositories.Hotel;
 
-namespace Application.Services.Hotel
+namespace Infrastructure.Services.Hotel
 {
     public class HotelService : IHotelService
     {
@@ -12,30 +13,98 @@ namespace Application.Services.Hotel
             _hotelRepository = hotelRepository;
         }
 
-        public async Task<Entities.Hotel> CreateHotelAsync(Entities.Hotel hotel)
+        public async Task<HotelDTO> CreateHotelAsync(HotelDTO hotel)
         {
-            var hotelId = await _hotelRepository.CreateHotelAsync(hotel);
-            return (await _hotelRepository.GetHotelAsync(hotelId))!;
+            var hotelEntitiyToCreate = new Entities.Hotel()
+            {
+                Name = hotel.Name
+            };
+            hotel.Id = (await _hotelRepository.CreateHotelAsync(hotelEntitiyToCreate)).ToString();
+            return hotel;
+        }
+        public async Task<IEnumerable<HotelDTO>> GetHotelsAsync()
+        {
+            var hotels = await _hotelRepository.GetHotelsAsync();
+            if (hotels?.Any() != true)
+            {
+                return Enumerable.Empty<HotelDTO>();
+            }
+
+            return hotels.Select(x => new HotelDTO
+            {
+                Id = x.Id.ToString(),
+                Name = x.Name
+            });
         }
 
-        public async Task DeleteHotelAsync(int id)//nadjes hotel - proveris da li postoji - ako ima brisemo - ako nema exception
+        public async Task<HotelDTO?> GetHotelAsync(string id)
         {
-            throw new NotImplementedException();
+            if (!int.TryParse(id, out var intId))
+            {
+                throw new ArgumentException($"{nameof(id)} cannot be parsed, not a valid integer format");
+            }
+
+            var hotel = await _hotelRepository.GetHotelAsync(intId);
+            if (hotel is null)
+            {
+                throw new ArgumentNullException($"{nameof(hotel)} cannot be null, hotel does not exist");
+            }
+
+            var reservationsDto = hotel.Reservations?
+                .Select(x => new ReservationDTO
+                {
+                    Id = x.Id.ToString(),
+                    HotelId = x.HotelId.ToString(),
+                    VisitorId = x.VisitorId.ToString(),
+                    StartDate = x.StartDate.ToString(),
+                    EndDate = x.EndDate.ToString()
+                });
+
+            return new HotelDTO()
+            {
+                Id = hotel.Id.ToString(),
+                Name = hotel.Name,
+                Reservations = reservationsDto
+            };
         }
 
-        public async Task<Entities.Hotel?> GetHotelAsync(int id)
+        public async Task<HotelDTO> UpdateHotelAsync(HotelDTO hotel)
         {
-            return await _hotelRepository.GetHotelAsync(id);
-        }
+            if (hotel is null && hotel?.Id is null)
+            {
+                throw new ArgumentNullException($"{nameof(hotel)} cannot be null, provide an existing hotel");
+            }
 
-        public async Task<IEnumerable<Entities.Hotel>> GetHotelsAsync()
-        {
-            return await _hotelRepository.GetHotelsAsync();
-        }
+            if (int.TryParse(hotel.Id, out var id))
+            {
+                var hotelToUpdate = new Entities.Hotel()
+                {
+                    Id = id,
+                    Name = hotel.Name,
+                };
+                await _hotelRepository.UpdateHotelAsync(hotelToUpdate);
+            }
+            else
+            {
+                throw new ArgumentException($"{nameof(hotel)} {nameof(hotel.Id)} is not a valid identifier, provider an valid int id");
+            }
 
-        public async Task<Entities.Hotel> UpdateHotelAsync(Entities.Hotel hotel)
+            return hotel;
+        }
+        public async Task DeleteHotelAsync(string id)
         {
-            throw new NotImplementedException();
+            if (!int.TryParse(id, out var intId))
+            {
+                throw new ArgumentException($"{nameof(id)} cannot be parsed, not a valid integer format");
+            }
+
+            var hotel = await _hotelRepository.GetHotelAsync(intId);
+            if (hotel is not null)
+            {
+                await _hotelRepository.DeleteHotelAsync(hotel);
+                return;
+            }
+            throw new ArgumentNullException($"{nameof(hotel)} cannot be null, cannot delete non-existing hotel");
         }
     }
 }

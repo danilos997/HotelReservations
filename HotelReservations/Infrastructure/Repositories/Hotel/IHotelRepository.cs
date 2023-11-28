@@ -1,6 +1,4 @@
-﻿using Entities = Infrastructure.Entities;
-
-namespace Application.Repositories.Hotel
+﻿namespace Infrastructure.Repositories.Hotel
 {
     public interface IHotelRepository
     {

@@ -1,8 +1,7 @@
 ﻿using Infrastructure.AppContext;
 using Microsoft.EntityFrameworkCore;
-using Entities = Infrastructure.Entities;
 
-namespace Application.Repositories.Visitor
+namespace Infrastructure.Repositories.Visitor
 {
     public class VisitorRepository : IVisitorRepository
     {

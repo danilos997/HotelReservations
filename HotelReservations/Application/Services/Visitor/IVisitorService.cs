@@ -1,17 +1,17 @@
-﻿using Entities = Infrastructure.Entities;
-namespace Application.Services.Visitor
+﻿using Application.DTO.Visitor;
+namespace Infrastructure.Services.Visitor
 
 {
     public interface IVisitorService
     {
-        Task<Entities.Visitor> CreateVisitorAsync(Entities.Visitor visitor);
+        Task<VisitorDTO> CreateVisitorAsync(VisitorDTO visitor);
 
-        Task<IEnumerable<Entities.Visitor>> GetVisitorsAsync();
+        Task<IEnumerable<VisitorDTO>> GetVisitorsAsync();
 
-        Task<Entities.Visitor?> GetVisitorAsync(int id);
+        Task<VisitorDTO?> GetVisitorAsync(string id);
 
-        Task<Entities.Visitor> UpdateVisitorAsync(Entities.Visitor visitor);
+        Task<VisitorDTO> UpdateVisitorAsync(VisitorDTO visitor);
 
-        Task DeleteVisitorAsync(Entities.Visitor visitor);
+        Task DeleteVisitorAsync(string id);
     }
 }

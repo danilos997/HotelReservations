@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Entities
 {
-    public class Reservations
+    public class Reservation
     {
         public int Id { get; set; }
 
@@ -20,9 +20,9 @@ namespace Infrastructure.Entities
         public Visitor? Visitor { get; set; }
     }
 
-    internal class ReservationsEntityConfiguration : IEntityTypeConfiguration<Reservations>
+    internal class ReservationsEntityConfiguration : IEntityTypeConfiguration<Reservation>
     {
-        public void Configure(EntityTypeBuilder<Reservations> builder)
+        public void Configure(EntityTypeBuilder<Reservation> builder)
         {
             builder
                 .HasKey(x => x.Id)

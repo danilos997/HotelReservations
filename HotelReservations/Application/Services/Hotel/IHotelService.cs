@@ -1,17 +1,17 @@
-﻿using Entities = Infrastructure.Entities;
+﻿using Application.DTO.Hotel;
 
-namespace Application.Services.Hotel
+namespace Infrastructure.Services.Hotel
 {
     public interface IHotelService
     {
-        Task<Entities.Hotel> CreateHotelAsync(Entities.Hotel hotel);
+        Task<HotelDTO> CreateHotelAsync(HotelDTO hotel);
 
-        Task<IEnumerable<Entities.Hotel>> GetHotelsAsync();
+        Task<IEnumerable<HotelDTO>> GetHotelsAsync();
 
-        Task<Entities.Hotel?> GetHotelAsync(int id);
+        Task<HotelDTO?> GetHotelAsync(string id);
 
-        Task<Entities.Hotel> UpdateHotelAsync(Entities.Hotel hotel);
+        Task<HotelDTO> UpdateHotelAsync(HotelDTO hotel);
 
-        Task DeleteHotelAsync(int id);
+        Task DeleteHotelAsync(string id);
     }
 }

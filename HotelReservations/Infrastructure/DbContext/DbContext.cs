@@ -9,7 +9,7 @@ namespace Infrastructure.AppContext
 
         public DbSet<Visitor> Visitor { get; set; }
 
-        public DbSet<Reservations> Reservations { get; set; }
+        public DbSet<Reservation> Reservations { get; set; }
 
         public HotelDbContext(DbContextOptions<HotelDbContext> options) : base(options)
         {

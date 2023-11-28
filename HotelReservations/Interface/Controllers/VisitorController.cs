@@ -1,5 +1,5 @@
-﻿using Application.Repositories.Visitor;
-using Infrastructure.Entities;
+﻿using Application.DTO.Visitor;
+using Infrastructure.Services.Visitor;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Interface.Controllers
@@ -8,46 +8,46 @@ namespace Interface.Controllers
     [Route("visitor")]
     public class VisitorController : ControllerBase
     {
-        private readonly IVisitorRepository _visitorRepository;
+        private readonly IVisitorService _visitorService;
 
-        public VisitorController(IVisitorRepository visitorRepository)
+        public VisitorController(IVisitorService visitorService)
         {
-            _visitorRepository = visitorRepository;
+            _visitorService = visitorService;
         }
 
         [HttpPost]
-        [Route("{id}")]
-        public async Task<int> CreateVisitorAsync([FromBody] Visitor visitor)
+        [Route("create")]
+        public async Task<VisitorDTO> CreateVisitorAsync([FromBody] VisitorDTO visitor)
         {
-            return await _visitorRepository.CreateVisitorAsync(visitor);
+            return await _visitorService.CreateVisitorAsync(visitor);
         }
 
         [HttpGet]
         [Route("all")]
-        public async Task<IEnumerable<Visitor>> GetVisitorsAsync()
+        public async Task<IEnumerable<VisitorDTO>> GetVisitorsAsync()
         {
-            return await _visitorRepository.GetVisitorsAsync();
+            return await _visitorService.GetVisitorsAsync();
         }
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<Visitor?> GetVisitorAsync(int id)
+        public async Task<VisitorDTO?> GetVisitorAsync(string id)
         {
-            return await _visitorRepository.GetVisitorAsync(id);
+            return await _visitorService.GetVisitorAsync(id);
         }
 
         [HttpPut]
         [Route("{id}")]
-        public async Task<Visitor> UpdateVisitorAsync([FromBody] Visitor visitor)
+        public async Task<VisitorDTO> UpdateVisitorAsync([FromBody] VisitorDTO visitor)
         {
-            return await _visitorRepository.UpdateVisitorAsync(visitor);
+            return await _visitorService.UpdateVisitorAsync(visitor);
         }
 
         [HttpDelete]
         [Route("{id}")]
-        public async Task DeleteVisitor([FromBody] Visitor visitor)
+        public async Task DeleteVisitor([FromRoute] string id)
         {
-            await _visitorRepository.DeleteVisitorAsync(visitor);
+            await _visitorService.DeleteVisitorAsync(id);
         }
     }
 }

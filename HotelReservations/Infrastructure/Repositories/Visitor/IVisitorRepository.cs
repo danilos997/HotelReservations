@@ -1,6 +1,4 @@
-﻿using Entities = Infrastructure.Entities;
-
-namespace Application.Repositories.Visitor
+﻿namespace Infrastructure.Repositories.Visitor
 {
     public interface IVisitorRepository
     {

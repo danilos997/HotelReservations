@@ -9,7 +9,7 @@ namespace Infrastructure.Entities
 
         public required string Name { get; set; }
 
-        public IList<Reservations>? Reservations { get; set; }
+        public IList<Reservation>? Reservations { get; set; }
     }
 
     public class HotelEntityConfiguration : IEntityTypeConfiguration<Hotel>

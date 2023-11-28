@@ -1,7 +1,11 @@
-using Application.Repositories.Hotel;
-using Application.Repositories.Visitor;
+using Infrastructure.Repositories.Hotel;
+using Infrastructure.Repositories.Visitor;
 using Infrastructure.AppContext;
 using Microsoft.EntityFrameworkCore;
+using Infrastructure.Services.Visitor;
+using Infrastructure.Services.Hotel;
+using Infrastructure.Repositories.Reservation;
+using Application.Services.Reservations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +23,10 @@ builder.Services.AddDbContext<HotelDbContext>(options =>
 
 builder.Services.AddTransient<IHotelRepository, HotelRepository>();
 builder.Services.AddTransient<IVisitorRepository, VisitorRepository>();
+builder.Services.AddTransient<IReservationRepository, ReservationRepository>();
+builder.Services.AddTransient<IHotelService, HotelService>();
+builder.Services.AddTransient<IVisitorService, VisitorService>();
+builder.Services.AddTransient<IReservationService, ReservationService>();
 
 var app = builder.Build();
 

@@ -13,7 +13,7 @@ namespace Infrastructure.Entities
 
         public required string Email { get; set; }
 
-        public IList<Reservations>? Reservations { get; set; }
+        public IList<Reservation>? Reservations { get; set; }
     }
 
     public class VisitorEntityConfiguration : IEntityTypeConfiguration<Visitor>

@@ -1,8 +1,7 @@
 ﻿using Infrastructure.AppContext;
 using Microsoft.EntityFrameworkCore;
-using Entities = Infrastructure.Entities;
 
-namespace Application.Repositories.Hotel
+namespace Infrastructure.Repositories.Hotel
 {
     public class HotelRepository : IHotelRepository
     {
@@ -27,7 +26,10 @@ namespace Application.Repositories.Hotel
 
         public async Task<Entities.Hotel?> GetHotelAsync(int id)
         {
-            return await _dbContext.Hotel.Where(x => x.Id == id).FirstOrDefaultAsync();
+            return await _dbContext.Hotel
+                .Where(x => x.Id == id)
+                .Include(x => x.Reservations)
+                .FirstOrDefaultAsync();
         }
 
         public async Task<Entities.Hotel> UpdateHotelAsync(Entities.Hotel hotel)
