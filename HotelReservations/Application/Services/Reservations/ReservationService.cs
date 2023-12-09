@@ -39,6 +39,7 @@ namespace Application.Services.Reservations
             }
             return reservations.Select(x => new ReservationDTO
             {
+                Id = x.Id.ToString(),
                 HotelId = x.HotelId.ToString(),
                 VisitorId = x.VisitorId.ToString(),
                 StartDate = x.StartDate.ToString(),
