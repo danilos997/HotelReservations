@@ -1,11 +1,11 @@
-using Infrastructure.Repositories.Hotel;
-using Infrastructure.Repositories.Visitor;
-using Infrastructure.AppContext;
-using Microsoft.EntityFrameworkCore;
-using Infrastructure.Services.Visitor;
-using Infrastructure.Services.Hotel;
-using Infrastructure.Repositories.Reservation;
 using Application.Services.Reservations;
+using Infrastructure.AppContext;
+using Infrastructure.Repositories.Hotel;
+using Infrastructure.Repositories.Reservation;
+using Infrastructure.Repositories.Visitor;
+using Infrastructure.Services.Hotel;
+using Infrastructure.Services.Visitor;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +28,13 @@ builder.Services.AddTransient<IHotelService, HotelService>();
 builder.Services.AddTransient<IVisitorService, VisitorService>();
 builder.Services.AddTransient<IReservationService, ReservationService>();
 
+builder.Services.AddCors(settings => settings.AddPolicy("Cors", policy =>
+{
+    policy.WithOrigins("*").AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod();
+}));
+
+builder.Services.AddControllers();
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -43,6 +50,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("Cors");
 
 app.UseHttpsRedirection();
 
