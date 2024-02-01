@@ -41,6 +41,9 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<HotelDbContext>();
     db.Database.Migrate();
+    var defaultHotel = new Infrastructure.Entities.Hotel() { Name = "Default Hotel" };
+    db.Hotel.Add(defaultHotel);
+    db.SaveChanges();
 }
 
 

@@ -13,14 +13,16 @@ export default function BookForm() {
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
 
-    const submit = () =>
+    const submit = (event: any) =>
     {
+        console.log(event)
+        event.preventDefault();
         bookReservation(name, surname, email, startDate, endDate);
     }
 
     return (
-        <form className="popup" >
-            <div className="container popup-inner" align-center>
+        <div className="popup" >
+            <div className="container popup-inner">
             <button className="closeButton">
             <FontAwesomeIcon icon={faCircleXmark}/>
             </button>
@@ -70,6 +72,6 @@ export default function BookForm() {
                     </div>
                 </div>
             </div>
-        </form>
+        </div>
     );
 }
