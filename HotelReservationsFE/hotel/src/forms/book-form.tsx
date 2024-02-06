@@ -18,6 +18,7 @@ export default function BookForm() {
         console.log(event)
         event.preventDefault();
         bookReservation(name, surname, email, startDate, endDate);
+        alert("Thank you for your reservation!");
     }
 
     return (
